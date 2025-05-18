@@ -37,7 +37,7 @@ export class UserService {
     return res.json();
   }
 
-  static async updateUser(id: string, payload: User) {
+  static async updateUser(id: string, payload: Partial<User>) {
     const url = userEndpoints.updateUser.replace("{id}", id);
     const res = await fetch(url, {
       method: "PUT",

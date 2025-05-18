@@ -2,7 +2,7 @@ import React from "react";
 import Link from "next/link";
 
 const Footer: React.FC = () => (
-  <footer className="MainFooter w-full bg-gray-900 py-4 mt-auto">
+  <footer className="MainFooter w-full bg-gray-900 py-4 fixed bottom-0 left-0 right-0 z-50">
     <div className="container mx-auto flex flex-col md:flex-row items-center justify-between px-4 gap-2">
       <span className="text-sm text-gray-400">&copy; {new Date().getFullYear()} Beamify. All rights reserved.</span>
       <nav className="flex gap-4 text-sm">

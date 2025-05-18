@@ -9,6 +9,7 @@ import {
 } from "@/theme/ui/flipcards";
 import { User, BanType, UserBan } from "@/core/api/admin/types/admin.interface";
 import { format } from "date-fns";
+import Image from "next/image";
 
 function getStatus(user: User & { status?: { isBanned?: boolean; isActive?: boolean }; timeoutUntil?: string }): string {
   if (user.status?.isBanned) return "Banned";
@@ -277,7 +278,7 @@ function UserTable() {
               <tr key={user._id} className="border-b border-gray-800 hover:bg-gray-800/50 transition">
                 <td className="px-4 py-2">
                   {user.profile?.avatar ? (
-                    <img src={user.profile.avatar} alt="avatar" className="h-8 w-8 rounded-full object-cover" />
+                    <Image src={user.profile.avatar} alt="avatar" width={32} height={32} className="h-8 w-8 rounded-full object-cover" />
                   ) : (
                     <span className="inline-block h-8 w-8 rounded-full bg-gray-700 text-gray-400 flex items-center justify-center font-bold">
                       {user.username[0].toUpperCase()}

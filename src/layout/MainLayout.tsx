@@ -41,11 +41,11 @@ const MainLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
     return <>{children}</>;
   }
   return (
-    <div className="flex flex-col bg-gray-950">
+    <div className="flex flex-col min-h-screen bg-gray-950">
       <Header />
       <div className="flex flex-1 w-full mx-auto">
         <LSidebar />
-        <main className="flex-1">{children}</main>
+        <main className={`flex-1 pb-20 ml-16${isLoggedIn ? ' lg:mr-64' : ''}`}>{children}</main>
         {isLoggedIn && <RSidebar />}
       </div>
       <Footer />

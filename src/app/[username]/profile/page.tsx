@@ -71,7 +71,7 @@ const ProfilePage = () => {
   if (!user) return <Alert type="error" message="User not found or not logged in.">User not found or not logged in.</Alert>;
 
   return (
-    <div className="min-h-screen w-full bg-gray-950 text-gray-100">
+    <div className="w-full bg-gray-950 text-gray-100">
       {/* Cover Image */}
       <div className="relative w-full h-56 sm:h-64 md:h-72 lg:h-80 bg-gray-800 group">
         <img
@@ -104,11 +104,11 @@ const ProfilePage = () => {
                 alt="User Avatar"
                 className="h-32 w-32 rounded-full object-cover"
               />
-            ) : (
+          ) : (
               <span className="h-32 w-32 rounded-full bg-[#ff3c00] flex items-center justify-center text-white font-bold text-5xl">
                 {user?.profile?.displayName?.[0] || user?.username?.[0] || "U"}
-              </span>
-            )}
+            </span>
+          )}
             {/* Avatar Upload Button */}
             <label className="absolute right-0 bottom-0 bg-black/70 hover:bg-black/90 text-white p-2 rounded-full cursor-pointer transition flex items-center justify-center" title="Change Avatar">
               <span className="sr-only">Change Avatar</span>

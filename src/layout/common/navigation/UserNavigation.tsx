@@ -4,6 +4,7 @@ import Link from "next/link";
 import { AuthService } from "@/core/auth/auth.service";
 import { User } from "@/core/api/admin/types/admin.interface";
 import { UserService } from "@/core/api/user/user.service";
+import Image from "next/image";
 
 function getInitials(name: string) {
   return name
@@ -46,9 +47,9 @@ const UserNavigation: React.FC = () => {
         aria-label="User menu"
       >
         {!user ? (
-          <img src="/images/logo/icon_w.svg" alt="Beamify Logo" className="h-8 w-8" />
+          <Image src="/images/logo/icon_w.svg" alt="Beamify Logo" width={32} height={32} className="h-8 w-8" priority />
         ) : user.profile?.avatar ? (
-          <img src={user.profile.avatar} alt="User Avatar" className="h-8 w-8 rounded-full object-cover border-2 border-[#ff3c00]" />
+          <Image src={user.profile.avatar} alt="User Avatar" width={32} height={32} className="h-8 w-8 rounded-full object-cover border-2 border-[#ff3c00]" />
         ) : (
           <span className="h-8 w-8 rounded-full bg-[#ff3c00] flex items-center justify-center text-white font-bold text-lg border-2 border-[#ff3c00]">
             {getInitials(user.profile?.displayName || user.username || "U")}

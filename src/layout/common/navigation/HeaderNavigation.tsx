@@ -10,6 +10,12 @@ const HeaderNavigation: React.FC = () => {
       >
         Browse
       </Link>
+      <Link
+        href="/pricing"
+        className="text-gray-100 hover:text-[#ff3c00] transition font-semibold px-3 py-2 rounded-md"
+      >
+        Pricing
+      </Link>
     </nav>
   );
 };

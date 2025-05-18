@@ -3,6 +3,7 @@ import React, { useState, useEffect } from "react";
 import { AuthService } from "@/core/auth/auth.service";
 import { Alert } from "@/theme/ui/alerts";
 import Link from "next/link";
+import Image from "next/image";
 
 const ForgotPage = () => {
   useEffect(() => {
@@ -41,13 +42,13 @@ const ForgotPage = () => {
     <div className="min-h-screen w-full flex flex-col items-center justify-center bg-gray-950 text-gray-100 px-4">
       <div className="mt-12 mb-8 flex flex-col items-center">
         <div className="rounded-full bg-white/10 backdrop-blur-md shadow-lg p-3 border border-white/20">
-          <img src="/images/logo/icon_w.svg" alt="Beamify Logo" className="h-16 w-16 drop-shadow-xl" />
+          <Image src="/images/logo/icon_w.svg" alt="Beamify Logo" width={64} height={64} className="h-16 w-16 drop-shadow-xl" priority />
         </div>
       </div>
       <div className={`w-full max-w-md transition-all duration-700 ${animate ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'} flex flex-col items-center`}>
         <div className="mb-7 flex flex-col items-center">
           <h1 className="text-3xl font-extrabold mb-2 text-[#ff3c00] drop-shadow-sm tracking-tight">Forgot Password</h1>
-          <p className="text-base text-gray-300 text-center max-w-xs font-medium">Enter your email and we'll send you a link to reset your password.</p>
+          <p className="text-base text-gray-300 text-center max-w-xs font-medium">Enter your email and we&apos;ll send you a link to reset your password.</p>
         </div>
         {success ? (
           <Alert type="success" message="If an account with that email exists, a reset link has been sent." />

@@ -5,6 +5,7 @@ import { AuthService } from "@/core/auth/auth.service";
 import { EyeIcon, EyeSlashIcon } from "@heroicons/react/24/outline";
 import { Alert } from "@/theme/ui/alerts";
 import Link from "next/link";
+import Image from "next/image";
 
 const RegisterPage = () => {
   useEffect(() => {
@@ -48,7 +49,7 @@ const RegisterPage = () => {
       <div className={`w-full max-w-md transition-all duration-700 ${animate ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'} flex flex-col items-center`}>
         <div className="mb-7 flex flex-col items-center">
           <div className="rounded-full bg-white/10 backdrop-blur-md shadow-lg p-3 mb-3 border border-white/20">
-            <img src="/images/logo/icon_w.svg" alt="Beamify Logo" className="h-14 w-14 drop-shadow-xl" />
+            <Image src="/images/logo/icon_w.svg" alt="Beamify Logo" width={56} height={56} className="h-14 w-14 drop-shadow-xl" priority />
           </div>
           <h1 className="text-3xl font-extrabold mb-2 text-[#ff3c00] drop-shadow-sm tracking-tight">Register for Beamify</h1>
           <p className="text-base text-gray-300 text-center max-w-xs font-medium">Create your account to get started.</p>

@@ -1,7 +1,7 @@
 import React from "react";
 
 const RSidebar: React.FC = () => (
-    <aside className="MainRSidebar hidden lg:flex flex-col max-h-full bg-gray-900 border-r p-4">
+    <aside className="MainRSidebar hidden lg:flex flex-col max-h-full bg-gray-900 border-r p-4 w-64 fixed top-0 right-0 h-screen z-40 pt-[64px]">
     <div className="mb-6">
       <span className="font-semibold text-lg text-primary">What&apos;s New</span>
     </div>

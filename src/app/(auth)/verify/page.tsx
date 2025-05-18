@@ -3,6 +3,7 @@ import React, { useState, useEffect } from "react";
 import { AuthService } from "@/core/auth/auth.service";
 import { Alert } from "@/theme/ui/alerts";
 import { useRouter, useSearchParams } from "next/navigation";
+import Image from "next/image";
 
 const VerifyPage = () => {
   useEffect(() => {
@@ -78,7 +79,7 @@ const VerifyPage = () => {
     <div className="min-h-screen w-full flex flex-col items-center justify-center bg-gray-950 text-gray-100 px-4">
       <header className="mt-12 mb-8 flex flex-col items-center w-full">
         <div className="rounded-full bg-white/10 backdrop-blur-md shadow-lg p-3 border border-white/20">
-          <img src="/images/logo/icon_w.svg" alt="Beamify Logo" className="h-16 w-16 drop-shadow-xl" />
+          <Image src="/images/logo/icon_w.svg" alt="Beamify Logo" width={64} height={64} className="h-16 w-16 drop-shadow-xl" priority />
         </div>
       </header>
       <div className={`w-full max-w-md transition-all duration-700 ${animate ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'} flex flex-col items-center`}>

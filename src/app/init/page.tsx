@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from "react";
 import { AuthService } from "@/core/auth/auth.service";
 import { EyeIcon, EyeSlashIcon, CheckCircleIcon, ExclamationCircleIcon } from "@heroicons/react/24/outline";
+import Image from "next/image";
 
 const InitPage = () => {
   const [form, setForm] = useState({ username: "", email: "", password: "" });
@@ -24,7 +25,7 @@ const InitPage = () => {
         const exists = await AuthService.checkAdminExists();
         if (exists) {
           clearInterval(interval);
-          window.location.href = "/login";
+        window.location.href = "/login";
         }
       }, 1000);
       return () => clearInterval(interval);
@@ -59,7 +60,7 @@ const InitPage = () => {
       <div className={`w-full max-w-md transition-all duration-700 ${animate ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'} flex flex-col items-center`}>
         <div className="mb-7 flex flex-col items-center">
           <div className="rounded-full bg-white/10 backdrop-blur-md shadow-lg p-3 mb-3 border border-white/20">
-            <img src="/images/logo/icon_w.svg" alt="Beamify Logo" className="h-14 w-14 drop-shadow-xl" />
+            <Image src="/images/logo/icon_w.svg" alt="Beamify Logo" width={56} height={56} className="h-14 w-14 drop-shadow-xl" priority />
           </div>
           <h1 className="text-3xl font-extrabold mb-2 text-[#ff3c00] drop-shadow-sm tracking-tight">Beamify Setup</h1>
           <p className="text-base text-gray-300 text-center max-w-xs font-medium">The application is locked until a SYSTEM_ADMINISTRATOR account is created. Please register your admin account below.</p>
@@ -148,8 +149,8 @@ const InitPage = () => {
           animation: fade-in 0.7s cubic-bezier(0.4,0,0.2,1);
         }
       `}</style>
-    </div>
-  );
+  </div>
+);
 };
 
 export default InitPage;
