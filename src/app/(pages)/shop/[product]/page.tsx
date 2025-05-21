@@ -37,7 +37,7 @@ export default function ProductDetailPage() {
             <img
               src={selectedImage}
               alt={productData.name}
-              className="w-full h-96 object-contain rounded-xl border-4 border-[#ff3c00] bg-gray-900 transition-all duration-200"
+              className="w-full h-96 object-contain rounded-xl border border-gray-800 bg-gray-900 transition-all duration-200"
             />
           ) : (
             <div className="w-full h-96 bg-gray-700 rounded-xl flex items-center justify-center">
