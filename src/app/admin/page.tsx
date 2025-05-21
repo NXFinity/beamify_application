@@ -2,9 +2,12 @@
 import { useAuthGuard } from "@/hooks/useAuthGuard";
 import { ShieldCheckIcon } from "@heroicons/react/24/outline";
 import Tabs, { Tab } from "@/theme/ui/tabs";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import UserManagementPage from "./user/page";
 import LedgerManagementPage from "./payment/page";
+import GamificationManagementPage from "./gamify/page";
+import AccessManagementPage from "./access/page";
+import EcommerceManagementPage from "./ecommerce/page";
 
 export default function AdminPage() {
   const checked = useAuthGuard();
@@ -12,7 +15,23 @@ export default function AdminPage() {
   const tabs: Tab[] = [
     { label: "User Management", value: "user-management" },
     { label: "Ledger Management", value: "ledger-management" },
+    { label: "Gamification Management", value: "gamification-management" },
+    { label: "Access Management", value: "access-management" },
+    { label: "Ecommerce Management", value: "ecommerce-management" },
   ];
+  useEffect(() => {
+    if (activeTab === "ecommerce-management") {
+      document.body.classList.add("ecommerce-active");
+      window.dispatchEvent(new CustomEvent("ecommerce-tab-visibility", { detail: { visible: true } }));
+    } else {
+      document.body.classList.remove("ecommerce-active");
+      window.dispatchEvent(new CustomEvent("ecommerce-tab-visibility", { detail: { visible: false } }));
+    }
+    return () => {
+      document.body.classList.remove("ecommerce-active");
+      window.dispatchEvent(new CustomEvent("ecommerce-tab-visibility", { detail: { visible: false } }));
+    };
+  }, [activeTab]);
   if (!checked) return null;
   return (
     <>
@@ -31,6 +50,9 @@ export default function AdminPage() {
           {/* Tab content */}
           {activeTab === "user-management" && <UserManagementPage />}
           {activeTab === "ledger-management" && <LedgerManagementPage />}
+          {activeTab === "gamification-management" && <GamificationManagementPage />}
+          {activeTab === "access-management" && <AccessManagementPage />}
+          {activeTab === "ecommerce-management" && <EcommerceManagementPage />}
         </div>
       </div>
     </>

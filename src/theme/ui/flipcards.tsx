@@ -1,74 +1,60 @@
-import React, { useState, isValidElement, cloneElement, ReactElement } from "react";
+import React, { useState } from "react";
 
 interface FlipCardProps {
-  flipped?: boolean;
-  onFlip?: (flipped: boolean) => void;
+  front: React.ReactNode;
+  back: React.ReactNode;
   className?: string;
-  children: React.ReactNode;
 }
 
-export function FlipCard({ flipped: flippedProp, onFlip, className = "", children }: FlipCardProps) {
-  const [internalFlipped, setInternalFlipped] = useState(false);
-  const isControlled = flippedProp !== undefined;
-  const flipped = isControlled ? flippedProp : internalFlipped;
-
-  const handleFlip = () => {
-    if (isControlled) {
-      if (onFlip) onFlip(!flipped);
-    } else {
-      setInternalFlipped((f) => {
-        if (onFlip) onFlip(!f);
-        return !f;
-      });
-    }
-  };
-
-  // Only pass onFlip to FlipCardFront/Back
-  const enhancedChildren = React.Children.map(children, (child) => {
-    if (!isValidElement(child)) return child;
-    const typeName = typeof child.type === "function" ? child.type.name : undefined;
-    if (typeName === "FlipCardFront" || typeName === "FlipCardBack") {
-      // Type assertion: add onFlip prop only to elements that accept it
-      return cloneElement(child as ReactElement<FlipCardSideProps>, { onFlip: handleFlip });
-    }
-    return child;
-  });
-
+export function FlipCard({ front, back, className = "" }: FlipCardProps) {
+  const [flipped, setFlipped] = useState(false);
   return (
     <div
-      className={`relative perspective-1000 w-full h-full ${className}`}
-      style={{ perspective: 1000 }}
+      className={`flip-card w-full h-full ${className}`}
+      onMouseEnter={() => setFlipped(true)}
+      onMouseLeave={() => setFlipped(false)}
+      tabIndex={0}
+      onFocus={() => setFlipped(true)}
+      onBlur={() => setFlipped(false)}
+      style={{ outline: 'none', perspective: 1000 }}
     >
-      <div
-        className={`transition-transform duration-500 ease-in-out w-full h-full [transform-style:preserve-3d] ${flipped ? "rotate-y-180" : ""}`}
-      >
-        {enhancedChildren}
+      <div className={`flip-card-inner w-full h-full transition-transform duration-500 ${flipped ? "flipped" : ""}`}>
+        <div className="flip-card-front w-full h-full flex flex-col items-center justify-center bg-gray-900 rounded-xl shadow-lg absolute inset-0 backface-hidden">
+          {front}
+        </div>
+        <div className="flip-card-back w-full h-full flex flex-col items-center justify-center bg-gray-800 rounded-xl shadow-lg absolute inset-0 backface-hidden transform rotateY-180">
+          {back}
+        </div>
       </div>
-    </div>
-  );
-}
-
-interface FlipCardSideProps {
-  children: React.ReactNode;
-  onFlip?: () => void;
-}
-
-export function FlipCardFront({ children }: FlipCardSideProps) {
-  return (
-    <div className="absolute w-full h-full top-0 left-0 backface-hidden z-10">
-      <div className="shadow-2xl bg-white/10 dark:bg-gray-900/60 backdrop-blur-lg flex flex-col w-full h-full">
-        {children}
-      </div>
-    </div>
-  );
-}
-
-export function FlipCardBack({ children }: FlipCardSideProps) {
-  return (
-    <div className="absolute w-full h-full top-0 left-0 rotate-y-180 backface-hidden z-20">
-      <div className="shadow-2xl bg-white/10 dark:bg-gray-900/60 backdrop-blur-lg flex flex-col w-full h-full">
-        {children}
-      </div>
+      <style jsx>{`
+        .flip-card {
+          perspective: 1000px;
+          position: relative;
+        }
+        .flip-card-inner {
+          position: relative;
+          width: 100%;
+          height: 100%;
+          transition: transform 0.5s;
+          transform-style: preserve-3d;
+        }
+        .flip-card-inner.flipped {
+          transform: rotateY(180deg);
+        }
+        .flip-card-front, .flip-card-back {
+          position: absolute;
+          width: 100%;
+          height: 100%;
+          backface-visibility: hidden;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+        }
+        .flip-card-back {
+          transform: rotateY(180deg);
+        }
+      `}</style>
     </div>
   );
 }

@@ -65,6 +65,7 @@ export interface Reward {
   _id: string;
   name: string;
   description?: string;
+  icon?: string;
   value: number;
 }
 
@@ -110,4 +111,95 @@ export interface TestPaymentIntentResponse {
   clientSecret: string;
   intent: Record<string, unknown>; // Stripe PaymentIntent object
   confirmResult?: ConfirmTestPaymentResult;
+}
+
+export interface Role {
+  _id?: string;
+  name: string;
+  description?: string;
+  permissions: string[];
+}
+
+export interface Permission {
+  _id?: string;
+  name: string;
+  description?: string;
+  resource?: string;
+  action?: string;
+}
+
+export interface Store {
+  _id: string;
+  name: string;
+  description?: string;
+  logo?: string;
+  cover?: string;
+  status: 'active' | 'inactive';
+  settings?: Record<string, unknown>;
+  createdAt?: string;
+  updatedAt?: string;
+}
+
+export interface Category {
+  _id: string;
+  name: string;
+  description?: string;
+  slug: string;
+  parent?: Category | string | null;
+  image?: string;
+  store: Store | string;
+  createdAt?: string;
+  updatedAt?: string;
+}
+
+export interface Tag {
+  _id: string;
+  name: string;
+  slug: string;
+  description?: string;
+  store: Store | string;
+  createdAt?: string;
+  updatedAt?: string;
+}
+
+export interface Product {
+  _id: string;
+  name: string;
+  description?: string;
+  slug: string;
+  price: number;
+  salePrice?: number;
+  currency?: string;
+  category: Category | string;
+  tags?: (Tag | string)[];
+  images?: string[];
+  store: Store | string;
+  vendor?: string;
+  status: 'draft' | 'published' | 'archived';
+  stock?: number;
+  sku?: string;
+  shortDescription?: string;
+  createdAt?: string;
+  updatedAt?: string;
+  attributes?: { name: string; values: string[] }[];
+}
+
+export interface ShippingClassRate {
+  name: string;
+  price: number;
+}
+
+export interface ShippingClass {
+  _id: string;
+  name: string;
+  description?: string;
+  rates: ShippingClassRate[];
+  createdAt?: string;
+  updatedAt?: string;
+}
+
+export interface ShippingClassInput {
+  name: string;
+  description?: string;
+  rates: ShippingClassRate[];
 } 

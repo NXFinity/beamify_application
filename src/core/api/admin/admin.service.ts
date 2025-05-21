@@ -11,6 +11,14 @@ import {
   StripeCustomer,
   Subscription,
   TestPaymentIntentResponse,
+  Role,
+  Permission,
+  Store,
+  Category,
+  Tag,
+  Product,
+  ShippingClass,
+  ShippingClassInput,
 } from "./types/admin.interface";
 
 function getAuthHeaders(): Record<string, string> {
@@ -131,6 +139,61 @@ export class AdminService {
       headers: getAuthHeaders(),
     });
     if (!res.ok) throw new Error("Failed to delete gamify profile");
+    return res.json();
+  }
+
+  static async createGamify(payload: {
+    userId: string;
+    points: number;
+    level: number;
+    exp: number;
+    crystals: number;
+  }): Promise<Gamify> {
+    const res = await fetch(adminEndpoints.getAllGamify, {
+      method: "POST",
+      headers: { ...getAuthHeaders(), "Content-Type": "application/json" },
+      body: JSON.stringify({
+        user: payload.userId,
+        points: payload.points,
+        level: payload.level,
+        exp: payload.exp,
+        crystals: payload.crystals,
+      }),
+    });
+    if (!res.ok) throw new Error("Failed to create gamify profile");
+    return res.json();
+  }
+
+  static async addPointsToGamify(id: string, amount: number): Promise<Gamify> {
+    const url = adminEndpoints.getAllGamify + `/${id}/add-points`;
+    const res = await fetch(url, {
+      method: 'POST',
+      headers: { ...getAuthHeaders(), 'Content-Type': 'application/json' },
+      body: JSON.stringify({ amount }),
+    });
+    if (!res.ok) throw new Error('Failed to add/remove points');
+    return res.json();
+  }
+
+  static async addLevelToGamify(id: string, amount: number): Promise<Gamify> {
+    const url = adminEndpoints.getAllGamify + `/${id}/add-level`;
+    const res = await fetch(url, {
+      method: 'POST',
+      headers: { ...getAuthHeaders(), 'Content-Type': 'application/json' },
+      body: JSON.stringify({ amount }),
+    });
+    if (!res.ok) throw new Error('Failed to add/remove level');
+    return res.json();
+  }
+
+  static async addExpToGamify(id: string, amount: number): Promise<Gamify> {
+    const url = adminEndpoints.getAllGamify + `/${id}/add-exp`;
+    const res = await fetch(url, {
+      method: 'POST',
+      headers: { ...getAuthHeaders(), 'Content-Type': 'application/json' },
+      body: JSON.stringify({ amount }),
+    });
+    if (!res.ok) throw new Error('Failed to add/remove experience');
     return res.json();
   }
 
@@ -391,6 +454,362 @@ export class AdminService {
       body: JSON.stringify(params || {}),
     });
     if (!res.ok) throw new Error('Failed to create test payment intent');
+    return res.json();
+  }
+
+  // Admin Badge Management
+  static async getAllBadges(): Promise<Badge[]> {
+    const res = await fetch(adminEndpoints.getAllBadges, {
+      headers: getAuthHeaders(),
+    });
+    if (!res.ok) throw new Error('Failed to fetch badges');
+    return res.json();
+  }
+
+  static async createBadge(payload: Partial<Badge>): Promise<Badge> {
+    const res = await fetch(adminEndpoints.getAllBadges, {
+      method: 'POST',
+      headers: { ...getAuthHeaders(), 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload),
+    });
+    if (!res.ok) throw new Error('Failed to create badge');
+    return res.json();
+  }
+
+  static async updateBadge(id: string, payload: Partial<Badge>): Promise<Badge> {
+    const url = adminEndpoints.getAllBadges + `/${id}`;
+    const res = await fetch(url, {
+      method: 'PUT',
+      headers: { ...getAuthHeaders(), 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload),
+    });
+    if (!res.ok) throw new Error('Failed to update badge');
+    return res.json();
+  }
+
+  static async deleteBadge(id: string): Promise<{ message: string }> {
+    const url = adminEndpoints.getAllBadges + `/${id}`;
+    const res = await fetch(url, {
+      method: 'DELETE',
+      headers: getAuthHeaders(),
+    });
+    if (!res.ok) throw new Error('Failed to delete badge');
+    return res.json();
+  }
+
+  // Admin Reward Management
+  static async getAllRewards(): Promise<Reward[]> {
+    const res = await fetch(adminEndpoints.getAllRewards, {
+      headers: getAuthHeaders(),
+    });
+    if (!res.ok) throw new Error('Failed to fetch rewards');
+    return res.json();
+  }
+
+  static async createReward(payload: Partial<Reward>): Promise<Reward> {
+    const res = await fetch(adminEndpoints.getAllRewards, {
+      method: 'POST',
+      headers: { ...getAuthHeaders(), 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload),
+    });
+    if (!res.ok) throw new Error('Failed to create reward');
+    return res.json();
+  }
+
+  static async updateReward(id: string, payload: Partial<Reward>): Promise<Reward> {
+    const url = adminEndpoints.getAllRewards + `/${id}`;
+    const res = await fetch(url, {
+      method: 'PUT',
+      headers: { ...getAuthHeaders(), 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload),
+    });
+    if (!res.ok) throw new Error('Failed to update reward');
+    return res.json();
+  }
+
+  static async deleteReward(id: string): Promise<{ message: string }> {
+    const url = adminEndpoints.getAllRewards + `/${id}`;
+    const res = await fetch(url, {
+      method: 'DELETE',
+      headers: getAuthHeaders(),
+    });
+    if (!res.ok) throw new Error('Failed to delete reward');
+    return res.json();
+  }
+
+  // Role Management
+  static async getAllRoles(): Promise<Role[]> {
+    const res = await fetch(adminEndpoints.getAllRoles, {
+      headers: getAuthHeaders(),
+    });
+    if (!res.ok) throw new Error("Failed to fetch roles");
+    return res.json();
+  }
+
+  // Permission Management
+  static async getAllPermissions(): Promise<Permission[]> {
+    const res = await fetch(adminEndpoints.getAllPermissions, {
+      headers: getAuthHeaders(),
+    });
+    if (!res.ok) throw new Error("Failed to fetch permissions");
+    return res.json();
+  }
+
+  // Store Management
+  static async getStore(): Promise<Store> {
+    const url = adminEndpoints.getStore;
+    const headers = getAuthHeaders();
+    const res = await fetch(url, { headers });
+    if (!res.ok) throw new Error("Failed to fetch store");
+    return res.json();
+  }
+
+  static async createStore(payload: Partial<Store>): Promise<Store> {
+    const url = adminEndpoints.createStore;
+    const headers = { ...getAuthHeaders(), "Content-Type": "application/json" };
+    const res = await fetch(url, {
+      method: "POST",
+      headers,
+      body: JSON.stringify(payload),
+    });
+    if (!res.ok) throw new Error("Failed to create store");
+    return res.json();
+  }
+
+  static async updateStore(payload: Partial<Store>): Promise<Store> {
+    const url = adminEndpoints.updateStore;
+    const headers = { ...getAuthHeaders(), "Content-Type": "application/json" };
+    const res = await fetch(url, {
+      method: "PUT",
+      headers,
+      body: JSON.stringify(payload),
+    });
+    if (!res.ok) throw new Error("Failed to update store");
+    return res.json();
+  }
+
+  static async deleteStore(): Promise<{ message: string }> {
+    const url = adminEndpoints.deleteStore;
+    const headers = getAuthHeaders();
+    const res = await fetch(url, { method: "DELETE", headers });
+    if (!res.ok) throw new Error("Failed to delete store");
+    return res.json();
+  }
+
+  // Category Management
+  static async getAllCategories(): Promise<Category[]> {
+    const url = adminEndpoints.getAllCategories;
+    const headers = getAuthHeaders();
+    const res = await fetch(url, { headers });
+    if (!res.ok) throw new Error("Failed to fetch categories");
+    return res.json();
+  }
+
+  static async getCategoryById(id: string): Promise<Category> {
+    const url = adminEndpoints.getCategoryById.replace("{id}", id);
+    const headers = getAuthHeaders();
+    const res = await fetch(url, { headers });
+    if (!res.ok) throw new Error("Failed to fetch category");
+    return res.json();
+  }
+
+  static async createCategory(payload: Partial<Category>): Promise<Category> {
+    const url = adminEndpoints.createCategory;
+    const headers = { ...getAuthHeaders(), "Content-Type": "application/json" };
+    const res = await fetch(url, {
+      method: "POST",
+      headers,
+      body: JSON.stringify(payload),
+    });
+    if (!res.ok) throw new Error("Failed to create category");
+    return res.json();
+  }
+
+  static async updateCategory(id: string, payload: Partial<Category>): Promise<Category> {
+    const url = adminEndpoints.updateCategory.replace("{id}", id);
+    const headers = { ...getAuthHeaders(), "Content-Type": "application/json" };
+    const res = await fetch(url, {
+      method: "PUT",
+      headers,
+      body: JSON.stringify(payload),
+    });
+    if (!res.ok) throw new Error("Failed to update category");
+    return res.json();
+  }
+
+  static async deleteCategory(id: string): Promise<{ message: string }> {
+    const url = adminEndpoints.deleteCategory.replace("{id}", id);
+    const headers = getAuthHeaders();
+    const res = await fetch(url, { method: "DELETE", headers });
+    if (!res.ok) throw new Error("Failed to delete category");
+    return res.json();
+  }
+
+  // Tag Management
+  static async getAllTags(): Promise<Tag[]> {
+    const url = adminEndpoints.getAllTags;
+    const headers = getAuthHeaders();
+    const res = await fetch(url, { headers });
+    if (!res.ok) throw new Error("Failed to fetch tags");
+    return res.json();
+  }
+
+  static async getTagById(id: string): Promise<Tag> {
+    const url = adminEndpoints.getTagById.replace("{id}", id);
+    const headers = getAuthHeaders();
+    const res = await fetch(url, { headers });
+    if (!res.ok) throw new Error("Failed to fetch tag");
+    return res.json();
+  }
+
+  static async createTag(payload: Partial<Tag>): Promise<Tag> {
+    const url = adminEndpoints.createTag;
+    const headers = { ...getAuthHeaders(), "Content-Type": "application/json" };
+    const res = await fetch(url, {
+      method: "POST",
+      headers,
+      body: JSON.stringify(payload),
+    });
+    if (!res.ok) throw new Error("Failed to create tag");
+    return res.json();
+  }
+
+  static async updateTag(id: string, payload: Partial<Tag>): Promise<Tag> {
+    const url = adminEndpoints.updateTag.replace("{id}", id);
+    const headers = { ...getAuthHeaders(), "Content-Type": "application/json" };
+    const res = await fetch(url, {
+      method: "PUT",
+      headers,
+      body: JSON.stringify(payload),
+    });
+    if (!res.ok) throw new Error("Failed to update tag");
+    return res.json();
+  }
+
+  static async deleteTag(id: string): Promise<{ message: string }> {
+    const url = adminEndpoints.deleteTag.replace("{id}", id);
+    const headers = getAuthHeaders();
+    const res = await fetch(url, { method: "DELETE", headers });
+    if (!res.ok) throw new Error("Failed to delete tag");
+    return res.json();
+  }
+
+  // Product Management
+  static async getAllProducts(): Promise<Product[]> {
+    const url = adminEndpoints.getAllProducts;
+    const headers = getAuthHeaders();
+    const res = await fetch(url, { headers });
+    if (!res.ok) throw new Error("Failed to fetch products");
+    return res.json();
+  }
+
+  static async getProductById(id: string): Promise<Product> {
+    const url = adminEndpoints.getProductById.replace("{id}", id);
+    const headers = getAuthHeaders();
+    const res = await fetch(url, { headers });
+    if (!res.ok) throw new Error("Failed to fetch product");
+    return res.json();
+  }
+
+  static async createProduct(payload: Partial<Product>): Promise<Product> {
+    const url = adminEndpoints.createProduct;
+    const headers = { ...getAuthHeaders(), "Content-Type": "application/json" };
+    const res = await fetch(url, {
+      method: "POST",
+      headers,
+      body: JSON.stringify(payload),
+    });
+    if (!res.ok) throw new Error("Failed to create product");
+    return res.json();
+  }
+
+  static async updateProduct(id: string, payload: Partial<Product>): Promise<Product> {
+    const url = adminEndpoints.updateProduct.replace("{id}", id);
+    const headers = { ...getAuthHeaders(), "Content-Type": "application/json" };
+    const res = await fetch(url, {
+      method: "PUT",
+      headers,
+      body: JSON.stringify(payload),
+    });
+    if (!res.ok) throw new Error("Failed to update product");
+    return res.json();
+  }
+
+  static async deleteProduct(id: string): Promise<{ message: string }> {
+    const url = adminEndpoints.deleteProduct.replace("{id}", id);
+    const headers = getAuthHeaders();
+    const res = await fetch(url, { method: "DELETE", headers });
+    if (!res.ok) throw new Error("Failed to delete product");
+    return res.json();
+  }
+
+  // Asset Upload
+  static async uploadAsset({ file, storeId, vendorId, assetType }: { file: File; storeId?: string; vendorId?: string; assetType: string }): Promise<{ url: string }> {
+    const url = adminEndpoints.uploadAsset;
+    const authHeaders = getAuthHeaders();
+    const headers: Record<string, string> = {};
+    if (authHeaders['Authorization']) headers['Authorization'] = authHeaders['Authorization'];
+    const formData = new FormData();
+    formData.append('file', file);
+    if (storeId) formData.append('storeId', storeId);
+    if (vendorId) formData.append('vendorId', vendorId);
+    formData.append('assetType', assetType);
+    const res = await fetch(url, {
+      method: 'POST',
+      headers,
+      body: formData,
+    });
+    if (!res.ok) {
+      let msg = 'Failed to upload asset';
+      try { msg = (await res.json()).message || msg; } catch {}
+      throw new Error(msg);
+    }
+    return res.json();
+  }
+
+  static async getAllShippingClasses(): Promise<ShippingClass[]> {
+    const res = await fetch(adminEndpoints.getAllShippingClasses, {
+      headers: getAuthHeaders(),
+    });
+    if (!res.ok) throw new Error("Failed to fetch shipping classes");
+    return res.json();
+  }
+
+  static async getShippingClassById(id: string): Promise<ShippingClass> {
+    const url = adminEndpoints.getShippingClassById.replace("{id}", id);
+    const res = await fetch(url, { headers: getAuthHeaders() });
+    if (!res.ok) throw new Error("Failed to fetch shipping class");
+    return res.json();
+  }
+
+  static async createShippingClass(payload: ShippingClassInput): Promise<ShippingClass> {
+    const res = await fetch(adminEndpoints.createShippingClass, {
+      method: "POST",
+      headers: { ...getAuthHeaders(), "Content-Type": "application/json" },
+      body: JSON.stringify(payload),
+    });
+    if (!res.ok) throw new Error("Failed to create shipping class");
+    return res.json();
+  }
+
+  static async updateShippingClass(id: string, payload: ShippingClassInput): Promise<ShippingClass> {
+    const url = adminEndpoints.updateShippingClass.replace("{id}", id);
+    const res = await fetch(url, {
+      method: "PUT",
+      headers: { ...getAuthHeaders(), "Content-Type": "application/json" },
+      body: JSON.stringify(payload),
+    });
+    if (!res.ok) throw new Error("Failed to update shipping class");
+    return res.json();
+  }
+
+  static async deleteShippingClass(id: string): Promise<{ message: string }> {
+    const url = adminEndpoints.deleteShippingClass.replace("{id}", id);
+    const res = await fetch(url, {
+      method: "DELETE",
+      headers: getAuthHeaders(),
+    });
+    if (!res.ok) throw new Error("Failed to delete shipping class");
     return res.json();
   }
 }

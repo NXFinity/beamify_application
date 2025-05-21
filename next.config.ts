@@ -2,7 +2,12 @@ import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   images: {
-    domains: ["iibustore.lon1.digitaloceanspaces.com"],
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'iibustore.lon1.digitaloceanspaces.com',
+      },
+    ],
   },
   /* config options here */
 };

@@ -3,10 +3,7 @@ import React, { useEffect, useState } from "react";
 import { AdminService } from "@/core/api/admin/admin.service";
 import { Payment, Subscription, TestPaymentIntentResponse, ConfirmTestPaymentResult } from "@/core/api/admin/types/admin.interface";
 import {
-  FlipCard,
-  FlipCardFront,
-  FlipCardBack,
-  FlipCardContent,
+  FlipCard
 } from "@/theme/ui/flipcards";
 import { loadStripe } from '@stripe/stripe-js';
 import { Elements, CardElement, useStripe, useElements } from '@stripe/react-stripe-js';
@@ -173,12 +170,6 @@ export default function LedgerManagementPage() {
   const [cancelLoading, setCancelLoading] = useState<string | null>(null);
   const [cancelError, setCancelError] = useState<string | null>(null);
 
-  // Flip card state
-  const [flippedPayments, setFlippedPayments] = useState(false);
-  const [flippedSubs, setFlippedSubs] = useState(false);
-  const [flippedRefunded, setFlippedRefunded] = useState(false);
-  const [flippedRevenue, setFlippedRevenue] = useState(false);
-
   // Test Payment state
   const [showTestPayment, setShowTestPayment] = useState(false);
   const [testAmount, setTestAmount] = useState(1);
@@ -275,84 +266,104 @@ export default function LedgerManagementPage() {
     <div className="min-h-screen w-full bg-gray-950 text-gray-100 px-4 py-8">
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 w-full mb-12">
         <div className="w-full h-48 relative">
-          <FlipCard flipped={flippedPayments} onFlip={setFlippedPayments} className="w-full h-full">
-            <FlipCardFront>
-              <FlipCardContent className="flex-1 flex flex-col items-center justify-center">
-                <div className="w-full h-full flex flex-col items-center justify-center cursor-pointer select-none" onClick={() => setFlippedPayments(true)}>
+          <FlipCard
+            front={
+              <div className="flex-1 flex flex-col items-center justify-center">
+                <div
+                  className="w-full h-full flex flex-col items-center justify-center cursor-pointer select-none"
+                >
                   <span className="text-5xl font-extrabold text-white drop-shadow-xl">{paymentsLoading ? <span className="animate-pulse">...</span> : totalPayments}</span>
                   <span className="text-base text-gray-200 mt-2 font-medium">Total Payments</span>
                 </div>
-              </FlipCardContent>
-            </FlipCardFront>
-            <FlipCardBack>
-              <FlipCardContent className="flex-1 flex flex-col items-center justify-center">
-                <div className="w-full h-full flex flex-col items-center justify-center cursor-pointer select-none" onClick={() => setFlippedPayments(false)}>
+              </div>
+            }
+            back={
+              <div className="flex-1 flex flex-col items-center justify-center">
+                <div
+                  className="w-full h-full flex flex-col items-center justify-center cursor-pointer select-none"
+                >
                   <span className="text-2xl font-bold text-[#ff3c00] mb-2">${paymentsLoading ? <span className="animate-pulse">...</span> : totalPaymentsValue.toLocaleString(undefined, { minimumFractionDigits: 2 })}</span>
                   <span className="text-gray-200 text-center">Total value of all payments</span>
                 </div>
-              </FlipCardContent>
-            </FlipCardBack>
-          </FlipCard>
+              </div>
+            }
+            className="w-full h-full"
+          />
         </div>
         <div className="w-full h-48 relative">
-          <FlipCard flipped={flippedSubs} onFlip={setFlippedSubs} className="w-full h-full">
-            <FlipCardFront>
-              <FlipCardContent className="flex-1 flex flex-col items-center justify-center">
-                <div className="w-full h-full flex flex-col items-center justify-center cursor-pointer select-none" onClick={() => setFlippedSubs(true)}>
+          <FlipCard
+            front={
+              <div className="flex-1 flex flex-col items-center justify-center">
+                <div
+                  className="w-full h-full flex flex-col items-center justify-center cursor-pointer select-none"
+                >
                   <span className="text-5xl font-extrabold text-white drop-shadow-xl">{subsLoading ? <span className="animate-pulse">...</span> : totalSubs}</span>
                   <span className="text-base text-gray-200 mt-2 font-medium">Total Subscriptions</span>
                 </div>
-              </FlipCardContent>
-            </FlipCardFront>
-            <FlipCardBack>
-              <FlipCardContent className="flex-1 flex flex-col items-center justify-center">
-                <div className="w-full h-full flex flex-col items-center justify-center cursor-pointer select-none" onClick={() => setFlippedSubs(false)}>
+              </div>
+            }
+            back={
+              <div className="flex-1 flex flex-col items-center justify-center">
+                <div
+                  className="w-full h-full flex flex-col items-center justify-center cursor-pointer select-none"
+                >
                   <span className="text-2xl font-bold text-[#ff3c00] mb-2">{subsLoading ? <span className="animate-pulse">...</span> : activeSubs}</span>
                   <span className="text-gray-200 text-center">Active subscriptions</span>
                 </div>
-              </FlipCardContent>
-            </FlipCardBack>
-          </FlipCard>
+              </div>
+            }
+            className="w-full h-full"
+          />
         </div>
         <div className="w-full h-48 relative">
-          <FlipCard flipped={flippedRefunded} onFlip={setFlippedRefunded} className="w-full h-full">
-            <FlipCardFront>
-              <FlipCardContent className="flex-1 flex flex-col items-center justify-center">
-                <div className="w-full h-full flex flex-col items-center justify-center cursor-pointer select-none" onClick={() => setFlippedRefunded(true)}>
+          <FlipCard
+            front={
+              <div className="flex-1 flex flex-col items-center justify-center">
+                <div
+                  className="w-full h-full flex flex-col items-center justify-center cursor-pointer select-none"
+                >
                   <span className="text-5xl font-extrabold text-white drop-shadow-xl">{paymentsLoading ? <span className="animate-pulse">...</span> : totalRefunded}</span>
                   <span className="text-base text-gray-200 mt-2 font-medium">Total Refunded</span>
                 </div>
-              </FlipCardContent>
-            </FlipCardFront>
-            <FlipCardBack>
-              <FlipCardContent className="flex-1 flex flex-col items-center justify-center">
-                <div className="w-full h-full flex flex-col items-center justify-center cursor-pointer select-none" onClick={() => setFlippedRefunded(false)}>
+              </div>
+            }
+            back={
+              <div className="flex-1 flex flex-col items-center justify-center">
+                <div
+                  className="w-full h-full flex flex-col items-center justify-center cursor-pointer select-none"
+                >
                   <span className="text-2xl font-bold text-[#ff3c00] mb-2">${paymentsLoading ? <span className="animate-pulse">...</span> : totalRefundedValue.toLocaleString(undefined, { minimumFractionDigits: 2 })}</span>
                   <span className="text-gray-200 text-center">Total value refunded</span>
                 </div>
-              </FlipCardContent>
-            </FlipCardBack>
-          </FlipCard>
+              </div>
+            }
+            className="w-full h-full"
+          />
         </div>
         <div className="w-full h-48 relative">
-          <FlipCard flipped={flippedRevenue} onFlip={setFlippedRevenue} className="w-full h-full">
-            <FlipCardFront>
-              <FlipCardContent className="flex-1 flex flex-col items-center justify-center">
-                <div className="w-full h-full flex flex-col items-center justify-center cursor-pointer select-none" onClick={() => setFlippedRevenue(true)}>
+          <FlipCard
+            front={
+              <div className="flex-1 flex flex-col items-center justify-center">
+                <div
+                  className="w-full h-full flex flex-col items-center justify-center cursor-pointer select-none"
+                >
                   <span className="text-5xl font-extrabold text-white drop-shadow-xl">{paymentsLoading ? <span className="animate-pulse">...</span> : `$${revenueLast30.toLocaleString(undefined, { minimumFractionDigits: 2 })}`}</span>
                   <span className="text-base text-gray-200 mt-2 font-medium">Revenue (30d)</span>
                 </div>
-              </FlipCardContent>
-            </FlipCardFront>
-            <FlipCardBack>
-              <FlipCardContent className="flex-1 flex flex-col items-center justify-center">
-                <div className="w-full h-full flex flex-col items-center justify-center cursor-pointer select-none" onClick={() => setFlippedRevenue(false)}>
+              </div>
+            }
+            back={
+              <div className="flex-1 flex flex-col items-center justify-center">
+                <div
+                  className="w-full h-full flex flex-col items-center justify-center cursor-pointer select-none"
+                >
                   <span className="text-2xl font-bold text-[#ff3c00] mb-2">{paymentsLoading ? <span className="animate-pulse">...</span> : paymentsCountLast30}</span>
                   <span className="text-gray-200 text-center">Payments in last 30 days</span>
                 </div>
-              </FlipCardContent>
-            </FlipCardBack>
-          </FlipCard>
+              </div>
+            }
+            className="w-full h-full"
+          />
         </div>
       </div>
       {/* Test Payment Button & Form */}

@@ -13,25 +13,27 @@ export const adminEndpoints = {
   unbanUser: `${API_BASE_URL}/${API_BASE_VER}/admin/users/{id}/ban`,
 
   // Gamification Management
-  getAllGamify: `${API_BASE_URL}/${API_BASE_VER}/gamify`,
-  getGamifyById: `${API_BASE_URL}/${API_BASE_VER}/gamify/{id}`,
-  updateGamify: `${API_BASE_URL}/${API_BASE_VER}/gamify/{id}`,
-  deleteGamify: `${API_BASE_URL}/${API_BASE_VER}/gamify/{id}`,
+  getAllGamify: `${API_BASE_URL}/${API_BASE_VER}/admin/gamify`,
+  getGamifyById: `${API_BASE_URL}/${API_BASE_VER}/admin/gamify/{id}`,
+  updateGamify: `${API_BASE_URL}/${API_BASE_VER}/admin/gamify/{id}`,
+  deleteGamify: `${API_BASE_URL}/${API_BASE_VER}/admin/gamify/{id}`,
 
   // Activities
-  getActivitiesByUsername: `${API_BASE_URL}/${API_BASE_VER}/gamify/activities/user/{username}`,
-  getActivityById: `${API_BASE_URL}/${API_BASE_VER}/gamify/activities/{id}`,
-  getMyActivities: `${API_BASE_URL}/${API_BASE_VER}/gamify/activities/me`,
+  getActivitiesByUsername: `${API_BASE_URL}/${API_BASE_VER}/admin/gamify/activities/user/{username}`,
+  getActivityById: `${API_BASE_URL}/${API_BASE_VER}/admin/gamify/activities/{id}`,
+  getMyActivities: `${API_BASE_URL}/${API_BASE_VER}/admin/gamify/activities/me`,
 
   // Badges
-  getBadgesByUsername: `${API_BASE_URL}/${API_BASE_VER}/gamify/badges/user/{username}`,
-  getBadgeById: `${API_BASE_URL}/${API_BASE_VER}/gamify/badges/{id}`,
-  getMyBadges: `${API_BASE_URL}/${API_BASE_VER}/gamify/badges/me`,
+  getBadgesByUsername: `${API_BASE_URL}/${API_BASE_VER}/admin/gamify/badges/user/{username}`,
+  getBadgeById: `${API_BASE_URL}/${API_BASE_VER}/admin/gamify/badges/{id}`,
+  getMyBadges: `${API_BASE_URL}/${API_BASE_VER}/admin/gamify/badges/me`,
+  getAllBadges: `${API_BASE_URL}/${API_BASE_VER}/admin/badges`,
 
   // Rewards
-  getRewardsByUsername: `${API_BASE_URL}/${API_BASE_VER}/gamify/rewards/user/{username}`,
-  getRewardById: `${API_BASE_URL}/${API_BASE_VER}/gamify/rewards/{id}`,
-  getMyRewards: `${API_BASE_URL}/${API_BASE_VER}/gamify/rewards/me`,
+  getRewardsByUsername: `${API_BASE_URL}/${API_BASE_VER}/admin/gamify/rewards/user/{username}`,
+  getRewardById: `${API_BASE_URL}/${API_BASE_VER}/admin/gamify/rewards/{id}`,
+  getMyRewards: `${API_BASE_URL}/${API_BASE_VER}/admin/gamify/rewards/me`,
+  getAllRewards: `${API_BASE_URL}/${API_BASE_VER}/admin/rewards`,
 
   // User Count
   getUserCount: `${API_BASE_URL}/${API_BASE_VER}/admin/users/count`,
@@ -49,4 +51,55 @@ export const adminEndpoints = {
   getSubscriptionById: `${API_BASE_URL}/${API_BASE_VER}/admin/subscriptions/{id}`,
   cancelSubscription: `${API_BASE_URL}/${API_BASE_VER}/admin/subscriptions/{id}/cancel`,
   testPaymentIntent: `${API_BASE_URL}/${API_BASE_VER}/admin/payment/test-intent`,
+
+  // Role Management
+  getAllRoles: `${API_BASE_URL}/${API_BASE_VER}/admin/roles`,
+  getRoleById: `${API_BASE_URL}/${API_BASE_VER}/admin/roles/{id}`,
+  createRole: `${API_BASE_URL}/${API_BASE_VER}/admin/roles`,
+  updateRole: `${API_BASE_URL}/${API_BASE_VER}/admin/roles/{id}`,
+  deleteRole: `${API_BASE_URL}/${API_BASE_VER}/admin/roles/{id}`,
+
+  // Permission Management
+  getAllPermissions: `${API_BASE_URL}/${API_BASE_VER}/admin/permissions`,
+  getPermissionById: `${API_BASE_URL}/${API_BASE_VER}/admin/permissions/{id}`,
+  createPermission: `${API_BASE_URL}/${API_BASE_VER}/admin/permissions`,
+  updatePermission: `${API_BASE_URL}/${API_BASE_VER}/admin/permissions/{id}`,
+  deletePermission: `${API_BASE_URL}/${API_BASE_VER}/admin/permissions/{id}`,
+
+  // Store Management
+  getStore: `${API_BASE_URL}/${API_BASE_VER}/admin/store`,
+  createStore: `${API_BASE_URL}/${API_BASE_VER}/admin/store`,
+  updateStore: `${API_BASE_URL}/${API_BASE_VER}/admin/store`,
+  deleteStore: `${API_BASE_URL}/${API_BASE_VER}/admin/store`,
+
+  // Category Management
+  getAllCategories: `${API_BASE_URL}/${API_BASE_VER}/admin/categories`,
+  getCategoryById: `${API_BASE_URL}/${API_BASE_VER}/admin/categories/{id}`,
+  createCategory: `${API_BASE_URL}/${API_BASE_VER}/admin/categories`,
+  updateCategory: `${API_BASE_URL}/${API_BASE_VER}/admin/categories/{id}`,
+  deleteCategory: `${API_BASE_URL}/${API_BASE_VER}/admin/categories/{id}`,
+
+  // Tag Management
+  getAllTags: `${API_BASE_URL}/${API_BASE_VER}/admin/tags`,
+  getTagById: `${API_BASE_URL}/${API_BASE_VER}/admin/tags/{id}`,
+  createTag: `${API_BASE_URL}/${API_BASE_VER}/admin/tags`,
+  updateTag: `${API_BASE_URL}/${API_BASE_VER}/admin/tags/{id}`,
+  deleteTag: `${API_BASE_URL}/${API_BASE_VER}/admin/tags/{id}`,
+
+  // Product Management
+  getAllProducts: `${API_BASE_URL}/${API_BASE_VER}/admin/products`,
+  getProductById: `${API_BASE_URL}/${API_BASE_VER}/admin/products/{id}`,
+  createProduct: `${API_BASE_URL}/${API_BASE_VER}/admin/products`,
+  updateProduct: `${API_BASE_URL}/${API_BASE_VER}/admin/products/{id}`,
+  deleteProduct: `${API_BASE_URL}/${API_BASE_VER}/admin/products/{id}`,
+
+  // Asset Upload
+  uploadAsset: `${API_BASE_URL}/${API_BASE_VER}/admin/assets/upload`,
+
+  // Shipping Class Management
+  getAllShippingClasses: `${API_BASE_URL}/${API_BASE_VER}/admin/shipping-classes`,
+  getShippingClassById: `${API_BASE_URL}/${API_BASE_VER}/admin/shipping-classes/{id}`,
+  createShippingClass: `${API_BASE_URL}/${API_BASE_VER}/admin/shipping-classes`,
+  updateShippingClass: `${API_BASE_URL}/${API_BASE_VER}/admin/shipping-classes/{id}`,
+  deleteShippingClass: `${API_BASE_URL}/${API_BASE_VER}/admin/shipping-classes/{id}`,
 };

@@ -1,10 +1,11 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { usePathname } from "next/navigation";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 import LSidebar from "./components/LSidebar";
 import RSidebar from "./components/RSidebar";
+import { useAuth } from "@/core/auth/AuthProvider";
 
 function hasHideLayoutProp(type: unknown): type is { hideLayout: boolean } {
   return typeof type === 'function' && 'hideLayout' in (type as object) && (type as { hideLayout?: boolean }).hideLayout === true;
@@ -12,12 +13,11 @@ function hasHideLayoutProp(type: unknown): type is { hideLayout: boolean } {
 
 const MainLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const pathname = usePathname();
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const { user, checked } = useAuth();
+  const [isCompact, setIsCompact] = useState(false);
+  const toggleCompact = () => setIsCompact((prev) => !prev);
 
-  useEffect(() => {
-    const token = typeof window !== "undefined" ? localStorage.getItem("token") : null;
-    setIsLoggedIn(!!token);
-  }, [pathname]);
+  if (!checked) return null;
 
   if (pathname === "/init") {
     return <>{children}</>;
@@ -45,8 +45,12 @@ const MainLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
       <Header />
       <div className="flex flex-1 w-full mx-auto">
         <LSidebar />
-        <main className={`flex-1 pb-20 ml-16${isLoggedIn ? ' lg:mr-64' : ''}`}>{children}</main>
-        {isLoggedIn && <RSidebar />}
+        <main
+          className={`flex-1 pb-20 ml-16 transition-all duration-300 ${user ? (isCompact ? 'lg:mr-16' : (pathname.startsWith('/admin') ? 'lg:mr-80' : 'lg:mr-64')) : ''}`}
+        >
+          {children}
+        </main>
+        {user && <RSidebar isCompact={isCompact} toggleCompact={toggleCompact} />}
       </div>
       <Footer />
     </div>
